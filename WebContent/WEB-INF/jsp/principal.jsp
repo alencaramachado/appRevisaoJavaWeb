@@ -10,7 +10,7 @@
 
 	<h1>${usuario.login} -autenticado!</h1>
 	
-	<a href="servletController?opcao=cadastrarUsuario">
+	<a href="mvc?logica=RedirecionaCadastraUsuarioLogica">
 			Cadastrar Usuário</a>
 
 </body>

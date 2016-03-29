@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.csi.controller.logica.LogarLogica;
+import br.csi.controller.logica.Logica;
 
 /**
  * Servlet implementation class ServletMVC
@@ -33,14 +34,14 @@ public class ServletMVC extends HttpServlet {
 		System.out.println("... entrou no mvc servelt");
 		String log = request.getParameter("logica");
 		String classe = "br.csi.controller.logica."+log;
-		System.out.println("valor de log: "+log);
+				
 		System.out.println("vai carregar a classe: "+classe);
 		
 		try {
 			Class classeCarregada = Class.forName(classe);
 			
-			LogarLogica logLogica = 
-					(LogarLogica) classeCarregada.newInstance();
+			Logica logLogica = 
+					(Logica) classeCarregada.newInstance();
 			
 			String fluxo = logLogica.executa(request, response);
 			request.getRequestDispatcher(fluxo)
