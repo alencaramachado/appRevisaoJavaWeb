@@ -38,11 +38,15 @@ public class ServletMVC extends HttpServlet {
 		
 		try {
 			Class classeCarregada = Class.forName(classe);
+			
 			LogarLogica logLogica = 
 					(LogarLogica) classeCarregada.newInstance();
+			
 			String fluxo = logLogica.executa(request, response);
 			request.getRequestDispatcher(fluxo)
 				.forward(request, response);
+			
+			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
