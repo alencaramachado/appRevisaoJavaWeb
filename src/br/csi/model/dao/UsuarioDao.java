@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
- 
 import br.csi.model.Usuario;
 import br.csi.model.util.ConectaBDPostgres;
 /*
@@ -107,10 +106,10 @@ public class UsuarioDao {
 				System.out.println("......... vai alterar .............");
 				sql = "UPDATE USUARIO SET LOGIN =?, SENHA=?  "
 						+ " WHERE id =?";
-				stmt = c.prepareStatement(sql);	
-				stmt.setLong(1, t.getId());				
-				stmt.setString(2, t.getLogin());
-				stmt.setString(3, t.getSenha());
+				stmt = c.prepareStatement(sql);								
+				stmt.setString(1, t.getLogin());
+				stmt.setString(2, t.getSenha());
+				stmt.setLong(3, t.getId());
 				
 			}
 			
@@ -134,7 +133,9 @@ public class UsuarioDao {
 		System.out.println("dentro do getUsuarios()");
 		try{
 				
-			PreparedStatement stmt =  ConectaBDPostgres.getConexao().prepareStatement("select * from USUARIO");
+			PreparedStatement stmt =  
+					ConectaBDPostgres.getConexao().prepareStatement("select * from USUARIO");
+			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()){
 				Usuario t = new Usuario();
@@ -150,6 +151,54 @@ public class UsuarioDao {
 		}
 		
 		return usuarios;
+	}
+	
+	public Usuario getUsuario(Long id){
+		Usuario u = new Usuario();
+		
+		try{
+			
+			PreparedStatement stmt =  
+					ConectaBDPostgres
+						.getConexao()
+							.prepareStatement("select * from USUARIO where id = ?");
+			stmt.setLong(1, id);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){				
+				u.setId(rs.getLong("id"));
+				u.setLogin(rs.getString("login"));
+				u.setSenha(rs.getString("senha"));
+				System.out.println("usuário: "+u.getLogin());
+				
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return u;
+	}
+	
+	
+	public boolean remover(Long id){
+		boolean retorno = false;
+		
+		String sql = "delete from USUARIO where id = ?";
+		Connection c = ConectaBDPostgres
+				.getConexao();
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = c.prepareStatement(sql);
+			stmt.setLong(1, id);
+			stmt.execute();
+			retorno = true;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		
+		return retorno;
 	}
 	
 }

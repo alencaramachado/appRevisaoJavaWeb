@@ -5,14 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.csi.model.dao.UsuarioDao;
 
-public class RedirecionaCadastraUsuarioLogica implements Logica{
+public class RemoverUsuario implements Logica{
 
 	@Override
 	public String executa(HttpServletRequest rq, HttpServletResponse rp) {
-		 System.out.println("dentro do redirecinamento ....");
+		String id = rq.getParameter("id");
 		
-		 rq.setAttribute("usuarios", new UsuarioDao().getUsuarios());
+		new UsuarioDao().remover(Long.parseLong(id));
 		
+		rq.setAttribute("usuarios", new UsuarioDao().getUsuarios());		
 		return "/WEB-INF/jsp/cadastraUsuario.jsp";
 	}
 
