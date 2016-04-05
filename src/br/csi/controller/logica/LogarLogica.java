@@ -32,6 +32,7 @@ System.out.println("... dentro do excuta no LogarLogica");
 		if(retorno){
 			
 			pagina = "/WEB-INF/jsp/principal.jsp";
+rq.getSession().setAttribute("usuarioLogado", u);
 			rq.setAttribute("usuario", u);
 			rq.setAttribute("usuarios", uD.getUsuarios());
 		}else{
